@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Form from "../components/form";
+---
+
+<Layout title="Welcome to Astro.">
+  <div class="max-w-screen-md mx-auto flex flex-col justify-center items-center min-h-screen p-4">
+    <Form client:load />
+  </div>
+</Layout>
