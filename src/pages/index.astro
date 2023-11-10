@@ -1,10 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Form from "../components/form";
+import BannerImage from "../components/banner-image.astro";
 ---
 
-<Layout title="Welcome to Astro.">
-  <div class="max-w-screen-md mx-auto flex flex-col justify-center items-center min-h-screen p-4">
-    <Form client:load />
+<Layout title="Register - Sumipol x Metalex 2023">
+  <div
+    class="max-w-screen-md mx-auto flex flex-col justify-center items-center min-h-screen p-6"
+  >
+    <div class="shadow-medium rounded-md bg-white">
+      <BannerImage />
+      <Form client:load />
+    </div>
   </div>
 </Layout>

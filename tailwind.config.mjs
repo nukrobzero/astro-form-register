@@ -1,5 +1,5 @@
 const { nextui } = require("@nextui-org/react");
-
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,7 +8,11 @@ export default {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Kanit", ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
-  plugins: [nextui()]
+  plugins: [nextui(), require("tailwind-scrollbar")({ nocompatible: true })],
 };
