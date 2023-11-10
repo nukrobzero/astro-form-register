@@ -2,6 +2,8 @@ import type { APIRoute } from "astro";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
+export const prerender = true;
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const { values } = await request.json();

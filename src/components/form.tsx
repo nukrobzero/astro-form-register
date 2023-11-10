@@ -57,7 +57,7 @@ const Form = () => {
   const onSubmit: SubmitHandler<ValidationSchema> = async (values) => {
     try {
       setIsLoading(true);
-      const { data } = await axios.post("/api/postForm.json", { values });
+      const { data } = await axios.post("/api/postForm", { values });
       if (data === "Email already exists") {
         setEmailDuclicate(data);
         setIsLoading(false);
