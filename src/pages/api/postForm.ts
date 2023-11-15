@@ -67,12 +67,12 @@ export const POST: APIRoute = async ({ request }) => {
     if (resTaxiMail) {
       const dataSendMail = {
         transactional_group_name: "Default",
-        subject: "Ticket for Sumipol x Metalex 2023",
+        subject: import.meta.env.EMAIL_SUBJECT,
         to_email: values.email,
-        from_name: "Sumipol",
-        from_email: "no-reply@sumipol.com",
-        template_key: "15858654dbc53ab876",
-        content_html: `{"CF_FirstName":"${values.firstName}","CF_LastName":"${values.lastName}","CF_JobPosition":"${values.jobPosition}","CF_Company":"${values.companyName}"}`,
+        from_name: import.meta.env.EMAIL_FORM_NAME,
+        from_email: import.meta.env.EMAIL_FORM_EMAIL,
+        template_key: import.meta.env.EMAIL_TEMPLATE_KEY,
+        content_html: `{"CF_FirstName":"${values.firstName}","CF_LastName":"${values.lastName}","CF_Email":"${values.email}","CF_Phone":"${values.phoneNumber}","CF_JobPosition":"${values.jobPosition}","CF_Company":"${values.companyName}"}`,
         report_type: "Full",
       };
 

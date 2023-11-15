@@ -18,11 +18,7 @@ const validationSchema = z.object({
   email: z.string().min(1, { message: "Email is required" }).email({
     message: "Must be a valid email",
   }),
-  phoneNumber: z
-    .string()
-    .min(1, { message: "Phone number is required" })
-    .regex(/^[0-9]{9,10}$/, { message: "Phone number must be 9 to 10 digits" })
-    .max(10),
+  phoneNumber: z.string().min(1, { message: "Phone number is required" }),
   companyName: z
     .string()
     .min(1, { message: "Companyname is required" })
@@ -110,12 +106,15 @@ const Form = () => {
               <Controller
                 name="firstName"
                 control={control}
-                render={({ field }) => (
+                render={({ field: { onChange, value, ...field } }) => (
                   <Input
                     isClearable
                     type="text"
                     variant="flat"
                     label="First Name"
+                    maxLength={100}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
                     onClear={() => setValue("firstName", "")}
                     {...field}
                     color={errors.firstName?.message ? "danger" : "default"}
@@ -128,12 +127,15 @@ const Form = () => {
               <Controller
                 name="lastName"
                 control={control}
-                render={({ field }) => (
+                render={({ field: { onChange, value, ...field } }) => (
                   <Input
                     isClearable
                     type="text"
                     variant="flat"
                     label="Last Name"
+                    maxLength={100}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
                     onClear={() => setValue("lastName", "")}
                     {...field}
                     color={errors.lastName?.message ? "danger" : "default"}
@@ -154,6 +156,7 @@ const Form = () => {
                     type="email"
                     variant="flat"
                     label="Email"
+                    maxLength={100}
                     onChange={(e) => {
                       onChange(e.target.value);
                       setEmailDuclicate("");
@@ -174,12 +177,29 @@ const Form = () => {
               <Controller
                 name="phoneNumber"
                 control={control}
-                render={({ field }) => (
+                render={({ field: { onChange, value, ...field } }) => (
                   <Input
                     isClearable
                     type="text"
                     variant="flat"
                     label="Phone"
+                    maxLength={10}
+                    value={value}
+                    onChange={(e) => {
+                      const input = e.target.value
+                        .replace(/\D/g, "")
+                        .substring(0, 10);
+                      const match = input.match(/^(\d{2})(\d{3})(\d{4})$/);
+                      const matchPhone = input.match(/^(\d{3})(\d{3})(\d{4})$/);
+                      if (match) {
+                        e.target.value = `${match[1]}-${match[2]}-${match[3]}`;
+                      } else if (matchPhone) {
+                        e.target.value = `${matchPhone[1]}-${matchPhone[2]}-${matchPhone[3]}`;
+                      } else {
+                        e.target.value = input;
+                      }
+                      onChange(e.target.value);
+                    }}
                     onClear={() => setValue("phoneNumber", "")}
                     {...field}
                     color={errors.phoneNumber?.message ? "danger" : "default"}
@@ -194,12 +214,15 @@ const Form = () => {
               <Controller
                 name="companyName"
                 control={control}
-                render={({ field }) => (
+                render={({ field: { onChange, value, ...field } }) => (
                   <Input
                     isClearable
                     type="text"
                     variant="flat"
                     label="Company Name"
+                    maxLength={100}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
                     onClear={() => setValue("companyName", "")}
                     {...field}
                     color={errors.companyName?.message ? "danger" : "default"}
@@ -212,12 +235,15 @@ const Form = () => {
               <Controller
                 name="jobPosition"
                 control={control}
-                render={({ field }) => (
+                render={({ field: { onChange, value, ...field } }) => (
                   <Input
                     isClearable
                     type="text"
                     variant="flat"
                     label="Job position"
+                    maxLength={100}
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
                     onClear={() => setValue("jobPosition", "")}
                     {...field}
                     color={errors.jobPosition?.message ? "danger" : "default"}
