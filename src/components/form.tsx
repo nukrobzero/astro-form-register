@@ -183,7 +183,7 @@ const Form = () => {
                     type="text"
                     variant="flat"
                     label="Phone"
-                    maxLength={10}
+                    maxLength={14}
                     value={value}
                     onChange={(e) => {
                       const input = e.target.value
