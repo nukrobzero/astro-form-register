@@ -75,10 +75,10 @@ const Form = () => {
       <Toaster />
       {thankU ? (
         <div className="shadow-lg p-12 bg-white rounded-b-md">
-          <div className="flex flex-col justify-center items-center space-y-4">
+          <div className="flex flex-col lg:h-48 justify-center items-center space-y-6">
             <h1 className="text-base text-black font-semibold text-center">
-              ขอบคุณที่ท่านได้ลงทะเบียนล่วงหน้า
-              ทางเราได้ส่งบัตรไปให้ท่านทางอีเมล์
+              ขอบคุณที่ท่านได้ลงทะเบียนล่วงหน้า ทางเราได้ส่ง Bar
+              code ไปให้ท่านทางอีเมล์
             </h1>
             <Button
               color="primary"
@@ -93,7 +93,7 @@ const Form = () => {
         </div>
       ) : (
         <form
-          className="w-full px-6 pt-6 pb-12"
+          className="w-full px-6 pt-8 pb-12"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="p-2 rounded-md shadow-small text-white bg-gradient-to-r from-blue-500 via-blue-400 to-blue-600">
@@ -255,10 +255,10 @@ const Form = () => {
           </div>
           <div className="space-y-6 pt-12">
             <div className="space-y-4">
-              <h2 className="font-medium text-sm md:text-base">
+              <h2 className="font-semibold text-sm md:text-base">
                 การให้ความยินยอมในการใช้ข้อมูลเพื่อการประชาสัมพันธ์ข่าวสารและการตลาด
               </h2>
-              <p className="indent-9 text-xs overflow-y-auto h-14 scrollbar border p-2 rounded-md">
+              <p className="indent-9 lg:indent-6 text-xs lg:text-sm overflow-y-auto h-14 lg:h-[70px] scrollbar border p-2 rounded-md">
                 ข้าพเจ้ายินยอมให้บริษัทสุมิพล คอร์ปอเรชั่น จํากัด เก็บรวบรวม ใช้
                 หรือเปิดเผยข้อมูลส่วนบุคคลและเพื่อวัตถุประสงค์ในการประชาสัมพันธ์ข่าวสารและการตลาด
                 อาทิ การนำเสนอผลิตภัณฑ์และบริการ ข้อมูลทางการตลาด
