@@ -45,7 +45,7 @@ const Form = ({ userFrom }: FormProps) => {
   const [thankU, setThankU] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
+  const { 
     control,
     handleSubmit,
     setValue,
