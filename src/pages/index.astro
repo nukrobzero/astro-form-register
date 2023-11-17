@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Form from "../components/form";
 import BannerImage from "../components/banner-image.astro";
+const userFrom = Astro.url.searchParams.get("from") ?? '';
 ---
 
 <Layout title="Pre-registering to visit Sumipol booth for Metalex 2023">
@@ -10,7 +11,7 @@ import BannerImage from "../components/banner-image.astro";
   >
     <div class="shadow-medium rounded-md bg-white">
       <BannerImage />
-      <Form client:load />
+      <Form client:load userFrom={userFrom} />
     </div>
   </div>
 </Layout>

@@ -34,7 +34,13 @@ const validationSchema = z.object({
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
-const Form = () => {
+type FormProps = {
+  userFrom: string;
+};
+
+const Form = ({ userFrom }: FormProps) => {
+  const getUserFromUrl = userFrom === "fb" ? "Facebook" : "Link";
+
   const [emailDuclicate, setEmailDuclicate] = useState("");
   const [thankU, setThankU] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +59,10 @@ const Form = () => {
   const onSubmit: SubmitHandler<ValidationSchema> = async (values) => {
     try {
       setIsLoading(true);
-      const { data } = await axios.post("/api/postForm", { values });
+      const { data } = await axios.post("/api/postForm", {
+        values,
+        getUserFromUrl,
+      });
       if (data === "Email already exists") {
         setEmailDuclicate(data);
         setIsLoading(false);
@@ -77,8 +86,8 @@ const Form = () => {
         <div className="shadow-lg p-12 bg-white rounded-b-md">
           <div className="flex flex-col lg:h-48 justify-center items-center space-y-6">
             <h1 className="text-base text-black font-semibold text-center">
-              ขอบคุณที่ท่านได้ลงทะเบียนล่วงหน้า ทางเราได้ส่ง Bar
-              code ไปให้ท่านทางอีเมล์
+              ขอบคุณที่ท่านได้ลงทะเบียนล่วงหน้า ทางเราได้ส่ง Bar code
+              ไปให้ท่านทางอีเมล์
             </h1>
             <Button
               color="primary"

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const { values } = await request.json();
+    const { values, getUserFromUrl } = await request.json();
 
     const id = uuidv4();
     const now = new Date();
@@ -30,6 +30,7 @@ export const POST: APIRoute = async ({ request }) => {
     formData.append("TIMESTAMP", timestamp);
     formData.append("PHONE", values.phoneNumber);
     formData.append("TERMS", values.terms);
+    formData.append("USERFROM", getUserFromUrl);
 
     const response = await axios.post(
       `${import.meta.env.GOOGLE_SHEET_REGISTER}`,
