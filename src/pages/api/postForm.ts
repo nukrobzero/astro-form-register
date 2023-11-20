@@ -45,53 +45,53 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // get session ID TaxiMail
-    const { data: resTaxiMail } = await axios.post(
-      "https://api.taximail.com/v2/user/login",
-      {
-        api_key: import.meta.env.TAXI_MAIL_API_KEY,
-        secret_key: import.meta.env.TAXI_MAIL_SECRET_KEY,
-      },
+    // const { data: resTaxiMail } = await axios.post(
+    //   "https://api.taximail.com/v2/user/login",
+    //   {
+    //     api_key: import.meta.env.TAXI_MAIL_API_KEY,
+    //     secret_key: import.meta.env.TAXI_MAIL_SECRET_KEY,
+    //   },
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // );
+
+    //Data for sending mail
+
+    const dataSendMail = {
+      transactional_group_name: "Default",
+      subject: import.meta.env.EMAIL_SUBJECT,
+      to_email: values.email,
+      from_name: import.meta.env.EMAIL_FORM_NAME,
+      from_email: import.meta.env.EMAIL_FORM_EMAIL,
+      template_key: import.meta.env.EMAIL_TEMPLATE_KEY,
+      content_html: `{"CF_FirstName":"${values.firstName}","CF_LastName":"${values.lastName}","CF_Email":"${values.email}","CF_Phone":"${values.phoneNumber}","CF_JobPosition":"${values.jobPosition}","CF_Company":"${values.companyName}"}`,
+      report_type: "Full",
+    };
+
+    const sendEmail = await axios.post(
+      "https://api.taximail.com/v2/transactional",
+      dataSendMail,
       {
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.TAXI_MAIL_SESSION_ID}`,
         },
       }
     );
 
-    //Data for sending mail
-    if (resTaxiMail.status === "success") {
-      const dataSendMail = {
-        transactional_group_name: "Default",
-        subject: import.meta.env.EMAIL_SUBJECT,
-        to_email: values.email,
-        from_name: import.meta.env.EMAIL_FORM_NAME,
-        from_email: import.meta.env.EMAIL_FORM_EMAIL,
-        template_key: import.meta.env.EMAIL_TEMPLATE_KEY,
-        content_html: `{"CF_FirstName":"${values.firstName}","CF_LastName":"${values.lastName}","CF_Email":"${values.email}","CF_Phone":"${values.phoneNumber}","CF_JobPosition":"${values.jobPosition}","CF_Company":"${values.companyName}"}`,
-        report_type: "Full",
-      };
+    return new Response(JSON.stringify(sendEmail.data), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
 
-      const sendEmail = await axios.post(
-        "https://api.taximail.com/v2/transactional",
-        dataSendMail,
-        {
-          headers: {
-            Authorization: `Bearer ${resTaxiMail.data.session_id}`,
-          },
-        }
-      );
-
-      return new Response(JSON.stringify(sendEmail.data), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-    return new Response(
-      JSON.stringify({ message: "Somting want wrong, Please try again." }),
-      {
-        status: 500,
-      }
-    );
+    // return new Response(
+    //   JSON.stringify({ message: "Somting want wrong, Please try again." }),
+    //   {
+    //     status: 500,
+    //   }
+    // );
   } catch (error) {
     return new Response(JSON.stringify({ error }), {
       status: 500,
