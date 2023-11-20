@@ -87,6 +87,7 @@ const Form = ({ userFrom }: FormProps) => {
       }
     } catch (error) {
       toast.error("Something went wrong!,Please try again.");
+      setIsLoading(false);
     }
   };
 
