@@ -61,6 +61,7 @@ export const POST: APIRoute = async ({ request }) => {
     //Data for sending mail
 
     const dataSendMail = {
+      session_id: import.meta.env.TAXI_MAIL_SESSION_ID,
       transactional_group_name: "Default",
       subject: import.meta.env.EMAIL_SUBJECT,
       to_email: values.email,
@@ -76,7 +77,8 @@ export const POST: APIRoute = async ({ request }) => {
       dataSendMail,
       {
         headers: {
-          Authorization: `Bearer ${import.meta.env.TAXI_MAIL_SESSION_ID}`,
+          // Authorization: `Bearer ${import.meta.env.TAXI_MAIL_SESSION_ID}`,
+          "Content-Type": "application/json",
         },
       }
     );
