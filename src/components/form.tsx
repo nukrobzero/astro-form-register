@@ -45,7 +45,7 @@ const Form = ({ userFrom }: FormProps) => {
   const [thankU, setThankU] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { 
+  const {
     control,
     handleSubmit,
     setValue,
@@ -59,14 +59,25 @@ const Form = ({ userFrom }: FormProps) => {
   const onSubmit: SubmitHandler<ValidationSchema> = async (values) => {
     try {
       setIsLoading(true);
-      const { data } = await axios.post("/api/postForm", {
-        values,
-        getUserFromUrl,
-      });
+      const { data } = await axios.post(
+        "/api/postForm",
+        {
+          values,
+          getUserFromUrl,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
       if (data === "Email already exists") {
         setEmailDuclicate(data);
         setIsLoading(false);
         toast.error("Email already exists");
+      }
+      if (data === "Somting want wrong, Please try again.") {
+        setIsLoading(false);
+        toast.error("Plese try again.");
       }
       if (data.status === "success") {
         setThankU(true);

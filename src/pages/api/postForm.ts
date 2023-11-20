@@ -43,8 +43,9 @@ export const POST: APIRoute = async ({ request }) => {
         headers: { "Content-Type": "application/json" },
       });
     }
-    //get session ID TaxiMail
-    const resTaxiMail = await axios.post(
+
+    // get session ID TaxiMail
+    const { data: resTaxiMail } = await axios.post(
       "https://api.taximail.com/v2/user/login",
       {
         api_key: import.meta.env.TAXI_MAIL_API_KEY,
@@ -57,15 +58,8 @@ export const POST: APIRoute = async ({ request }) => {
       }
     );
 
-    if (!resTaxiMail) {
-      return new Response(JSON.stringify(resTaxiMail), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    // Data for sending mail
-    if (resTaxiMail) {
+    //Data for sending mail
+    if (resTaxiMail.status === "success") {
       const dataSendMail = {
         transactional_group_name: "Default",
         subject: import.meta.env.EMAIL_SUBJECT,
@@ -82,7 +76,7 @@ export const POST: APIRoute = async ({ request }) => {
         dataSendMail,
         {
           headers: {
-            Authorization: `Bearer ${resTaxiMail.data.data.session_id}`,
+            Authorization: `Bearer ${resTaxiMail.data.session_id}`,
           },
         }
       );
@@ -92,9 +86,12 @@ export const POST: APIRoute = async ({ request }) => {
         headers: { "Content-Type": "application/json" },
       });
     }
-    return new Response(JSON.stringify({ message: "Somting want wrong" }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ message: "Somting want wrong, Please try again." }),
+      {
+        status: 500,
+      }
+    );
   } catch (error) {
     return new Response(JSON.stringify({ error }), {
       status: 500,
